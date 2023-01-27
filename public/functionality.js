@@ -39,18 +39,24 @@ for(let i = 0; i <= 26; i++){
 
 function getCloseFr(value){
   const dist = []
-  // console.log(value)
+  
   if(value < 0) {
     for(let i = 0; i <= 26; i++){
       dist.push(Math.abs(value + i*rotFr))
     }
     let minIndex = dist.indexOf(Math.min(...dist))
+    if (negbuckets[minIndex] == -360) {
+      return 0
+    }
     return negbuckets[minIndex]
   } else {
     for(let i = 0; i <= 26; i++){
       dist.push(Math.abs(value - i*rotFr))
     }
     let minIndex = dist.indexOf(Math.min(...dist))
+    if (posbuckets[minIndex] == 360) {
+      return 0
+    }
     return posbuckets[minIndex]
   }
 }
@@ -123,7 +129,6 @@ function getCloseFr(value){
   stop = function () {
     rota.style.transform = "rotate(" + (getCloseFr(complete)) + "deg)"
     angle += rotation;
-    console.log(getCloseFr(angle), +" "+ angle)
     angle = getCloseFr(angle)
     confsound.play('key1');
     soundid = stopSounds(soundid);
@@ -271,7 +276,6 @@ function getCloseFr(value){
     rotation = d - startAngle;
     soundid = runningSounds(soundid);
     complete = angle + rotation
-    console.log(angle, +" "+rotation)
     return rots.style.transform = "rotate(" + complete + "deg)";
   };
 
