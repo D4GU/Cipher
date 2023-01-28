@@ -1,3 +1,5 @@
+// Howler sound definitions
+
 var sound = new Howl({
   src: ['assets/sounds/stone.wav'],
   volume: 1,
@@ -37,6 +39,8 @@ for(let i = 0; i <= 26; i++){
   negbuckets.push(i*rotFr*-1)
 }
 
+// Rotation bucket function
+
 function getCloseFr(value){
   const dist = []
   
@@ -61,6 +65,24 @@ function getCloseFr(value){
   }
 }
 
+// Resizing Functionality
+
+
+// $(document).load($(window).bind("resize", checkPosition));
+
+// function checkPosition()
+// {
+//     if($(window).width() < 767)
+//     {
+//         $("#body-container .main-content").remove().insertBefore($("#body-container .left-sidebar"));
+//     } else {
+//         $("#body-container .main-content").remove().insertAfter($("#body-container .left-sidebar"));
+//     }
+// }
+
+
+
+// Rotation of elements
 
 (function () {
   var init, rotate, start, stop,
