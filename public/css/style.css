@@ -47,14 +47,13 @@
 
   #draggableNumbers {
     position: absolute;
-    margin-top: 8%;
-    margin-left: 8%;
+    margin-top: 7.8%;
+    margin-left: 8.2%;
     width: 84%;
     border-radius: 50%;
 
   }
   
-
   #rotateNumbers {
     width: 100%;
     position: absolute;
@@ -63,7 +62,7 @@
 
   #draggableSymbols {
     margin-top: 15.0%;
-    margin-left: 15.15%;
+    margin-left: 15.0%;
     width: 70%;
     border-radius: 50%;
     position: absolute;
@@ -88,7 +87,6 @@
   #rotateStaticmiddle{
     width: 100%;
     border-radius: 50%;
-    pointer-events: none;
     position: absolute;
 
   }
@@ -96,16 +94,61 @@
   #staticelements {
     position: absolute;
     pointer-events: none;
-    left: 44.5%;
-    top: 2%;
-    width: 10%;
-
-    /* transform: rotate(1deg); */
+    margin-top: 0.63%;
+    margin-left: 43.98%;
+    width: 13%;
   }
 
   #staticsvg {
     pointer-events: none;
     width: 100%;
+    position: absolute;
+  }
 
+  #draggablerunes {
+    margin-top: 25.4%;
+    margin-left: 25.4%;
+    width: 49%;
+    border-radius: 50%;
+    position: absolute;
+
+  }
+
+  #rotaterunes{
+    width: 100%;
+    border-radius: 50%;
+    position: absolute;
+
+  }
+
+  
+  #draggablEelements{
+    margin-top: 29.8%;
+    margin-left: 29.8%;
+    width: 40.5%;
+    border-radius: 50%;
+    position: absolute;
+  }
+
+  
+  #rotateElements{
+    width: 100%;
+    border-radius: 50%;
+    position: absolute;
+
+  }
+
+  #staticcontainer {
+    margin-top: 33.3%;
+    margin-left: 33.3%;
+    width: 33.6%;
+    border-radius: 50%;
+    position: absolute;
+  }
+
+  #staticring {
+    width: 100%;
+    border-radius: 50%;
+    pointer-events: none;
     position: absolute;
   }

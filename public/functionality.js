@@ -315,3 +315,237 @@ function getCloseFr(value){
   init();
 
 }).call(this);
+
+
+(function () {
+  var init, rotate, start, stop,
+    active = false,
+    angle = 0,
+    rotation = 0,
+    startAngle = 0,
+    currentElement = '',
+    soundid = null,
+    center = {
+      x: 0,
+      y: 0
+    },
+    R2D = 180 / Math.PI,
+    rota = document.getElementById('rotaterunes');
+
+  init = function () {
+    rota.addEventListener("mousedown", start, false);
+    $(document).bind('mousemove', function (event) {
+      if (active === true && currentElement == 'rotaterunes') {
+        event.preventDefault();
+        rotate(event);
+      }
+    });
+    $(document).bind('mousedown', function (event) {
+      currentElement= event.target.id
+    });
+    $(document).bind('mouseup', function (event) {
+      event.preventDefault();
+      if (currentElement == 'rotaterunes') {
+        stop(event);
+      }
+    });
+  };
+
+
+  start = function (a) {
+    a.preventDefault();
+    var bb = this.getBoundingClientRect(),
+      t = bb.top,
+      l = bb.left,
+      h = bb.height,
+      w = bb.width,
+      x, y;
+    center = {
+      x: l + (w / 2),
+      y: t + (h / 2)
+    };
+    x = a.clientX - center.x;
+    y = a.clientY - center.y;
+    startAngle = R2D * Math.atan2(y, x);
+    return active = true;
+  };
+
+  rotate = function (a) {
+    a.preventDefault();
+    var x = a.clientX - center.x,
+      y = a.clientY - center.y,
+      d = R2D * Math.atan2(y, x);
+    rotation = d - startAngle;
+    soundid = runningSounds(soundid);
+    complete = angle + rotation
+    return rota.style.transform = "rotate(" + complete + "deg)";
+  };
+
+  stop = function () {
+    rota.style.transform = "rotate(" + (getCloseFr(complete)) + "deg)"
+    angle += rotation;
+    angle = getCloseFr(angle)
+    confsound.play('key1');
+    soundid = stopSounds(soundid);
+    return active = false;
+  };
+
+  init();
+
+}).call(this);
+
+(function () {
+  var init, rotate, start, stop,
+    active = false,
+    angle = 0,
+    rotation = 0,
+    startAngle = 0,
+    currentElement = '',
+    soundid = null,
+    center = {
+      x: 0,
+      y: 0
+    },
+    R2D = 180 / Math.PI,
+    rota = document.getElementById('rotateStaticmiddle');
+
+  init = function () {
+    rota.addEventListener("mousedown", start, false);
+    $(document).bind('mousemove', function (event) {
+      if (active === true && currentElement == 'rotateStaticmiddle') {
+        event.preventDefault();
+        rotate(event);
+      }
+    });
+    $(document).bind('mousedown', function (event) {
+      currentElement= event.target.id
+    });
+    $(document).bind('mouseup', function (event) {
+      event.preventDefault();
+      if (currentElement == 'rotateStaticmiddle') {
+        stop(event);
+      }
+    });
+  };
+
+
+  start = function (a) {
+    a.preventDefault();
+    var bb = this.getBoundingClientRect(),
+      t = bb.top,
+      l = bb.left,
+      h = bb.height,
+      w = bb.width,
+      x, y;
+    center = {
+      x: l + (w / 2),
+      y: t + (h / 2)
+    };
+    x = a.clientX - center.x;
+    y = a.clientY - center.y;
+    startAngle = R2D * Math.atan2(y, x);
+    return active = true;
+  };
+
+  rotate = function (a) {
+    a.preventDefault();
+    var x = a.clientX - center.x,
+      y = a.clientY - center.y,
+      d = R2D * Math.atan2(y, x);
+    rotation = d - startAngle;
+    soundid = runningSounds(soundid);
+    complete = angle + rotation
+    return rota.style.transform = "rotate(" + complete + "deg)";
+  };
+
+  stop = function () {
+    rota.style.transform = "rotate(" + (getCloseFr(complete)) + "deg)"
+    angle += rotation;
+    angle = getCloseFr(angle)
+    confsound.play('key1');
+    soundid = stopSounds(soundid);
+    return active = false;
+  };
+
+  init();
+
+}).call(this);
+
+
+
+(function () {
+  var init, rotate, start, stop,
+    active = false,
+    angle = 0,
+    rotation = 0,
+    startAngle = 0,
+    currentElement = '',
+    soundid = null,
+    center = {
+      x: 0,
+      y: 0
+    },
+    R2D = 180 / Math.PI,
+    rota = document.getElementById('rotateElements');
+
+  init = function () {
+    rota.addEventListener("mousedown", start, false);
+    $(document).bind('mousemove', function (event) {
+      if (active === true && currentElement == 'rotateElements') {
+        event.preventDefault();
+        rotate(event);
+      }
+    });
+    $(document).bind('mousedown', function (event) {
+      currentElement= event.target.id
+    });
+    $(document).bind('mouseup', function (event) {
+      event.preventDefault();
+      if (currentElement == 'rotateElements') {
+        stop(event);
+      }
+    });
+  };
+
+
+  start = function (a) {
+    a.preventDefault();
+    var bb = this.getBoundingClientRect(),
+      t = bb.top,
+      l = bb.left,
+      h = bb.height,
+      w = bb.width,
+      x, y;
+    center = {
+      x: l + (w / 2),
+      y: t + (h / 2)
+    };
+    x = a.clientX - center.x;
+    y = a.clientY - center.y;
+    startAngle = R2D * Math.atan2(y, x);
+    return active = true;
+  };
+
+  rotate = function (a) {
+    a.preventDefault();
+    var x = a.clientX - center.x,
+      y = a.clientY - center.y,
+      d = R2D * Math.atan2(y, x);
+    rotation = d - startAngle;
+    soundid = runningSounds(soundid);
+    complete = angle + rotation
+    return rota.style.transform = "rotate(" + complete + "deg)";
+  };
+
+  stop = function () {
+    rota.style.transform = "rotate(" + (getCloseFr(complete)) + "deg)"
+    angle += rotation;
+    angle = getCloseFr(angle)
+    confsound.play('key1');
+    soundid = stopSounds(soundid);
+    return active = false;
+  };
+
+  init();
+
+}).call(this);
