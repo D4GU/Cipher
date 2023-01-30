@@ -9,7 +9,7 @@ var sound = new Howl({
 });
 
 var unlocksound = new Howl({
-  src: ['assets/sounds/empty_1c.wav'],
+  src: ['assets/sounds/empty.wav'],
   volume: 1,
   sprite: {
     key1: [600, 1600, true]
@@ -48,7 +48,6 @@ for(let i = 0; i <= 26; i++){
 }
 
 // Rotation bucket function
-
 function getCloseFr(value){
   const dist = []
   
@@ -90,7 +89,7 @@ let rotatables = []
 rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
 (function () {
-  var init, rotate, start, stop, mstart, mrotate, mstop
+  var init, rotate, start, stop, mstart, mrotate, mstop, soundunlocker
     active = false,
     currentRotatable = null,
     soundid = null,
@@ -99,16 +98,15 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
     
 
   init = function () {
-    for (const x of rotatableids) {document.getElementById(x).addEventListener("mousedown", start, { passive: false }), document.getElementById(x).addEventListener('touchstart', mstart, { passive: false });}
+    for (const x of rotatableids) {document.getElementById(x).addEventListener("mousedown", start, { passive: false }), 
+    document.getElementById(x).addEventListener('touchstart', mstart, { passive: false });}
 
 
       //Mobile
       $(document).bind('touchmove', function (event) {
-        unlocksound.play('key1')
         if (active === true) {mrotate(event);}
       });
       $(document).bind('touchstart', function (event) {
-        unlocksound.play('key1')
         currentRotatable = rotatables.find(o => o.name === event.target.id)
       });
       $(document).bind('touchend', function (event) {
@@ -130,6 +128,7 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
       });
       $(document).bind('mouseup', function (event) {
         event.preventDefault();
+        unlocksound.play('key1')
         stop(event);
       });
 
@@ -192,6 +191,8 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
       currentRotatable.active = false;
       return active = false;
     }
+
+
   }
 
   //Mobile functions
