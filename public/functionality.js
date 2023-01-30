@@ -3,6 +3,7 @@
 var sound = new Howl({
   src: ['assets/sounds/stone.wav'],
   volume: 1,
+  html5: true,
   sprite: {
     key1: [600, 1600, true]
   },
@@ -11,6 +12,7 @@ var sound = new Howl({
 var unlocksound = new Howl({
   src: ['assets/sounds/empty.wav'],
   volume: 1,
+  html5: true,
   sprite: {
     key1: [600, 1600, true]
   },
@@ -19,6 +21,7 @@ var unlocksound = new Howl({
 var confsound = new Howl({
   src: ['assets/sounds/confirm2.wav'],
   volume: 0.25,
+  html5: true,
   sprite: {
     key1: [0, 400]
   },
@@ -89,42 +92,6 @@ let rotatables = []
 rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
 
-var AudioContext = window.AudioContext || window.webkitAudioContext;
-var context = new AudioContext();
-
-function webAudioTouchUnlock (context)
-{
-    return new Promise(function (resolve, reject)
-    { 
-        if ('ontouchstart' in window)
-        { 
-            var unlock = function()
-            {
-                context.resume().then(function()
-                {
-                    document.body.removeEventListener('touchstart', unlock);
-                    document.body.removeEventListener('touchend', unlock);
-
-                    resolve(true);
-                }, 
-                function (reason)
-                {
-                    reject(reason);
-                });
-            };
-
-            document.body.addEventListener('touchstart', unlock, false);
-            document.body.addEventListener('touchend', unlock, false);
-        }
-        else
-        {
-            resolve(false);
-        }
-    });
-}
-
-
-
 (function () {
   var init, rotate, start, stop, mstart, mrotate, mstop, soundunlocker
     active = false,
@@ -141,23 +108,6 @@ function webAudioTouchUnlock (context)
 
       //Mobile
       $(document).bind('touchmove', function (event) {
-        webAudioTouchUnlock(context).then(function (unlocked)
-        {     
-        console.log(unlocked)
-        if(unlocked)
-        {
-            // AudioContext was unlocked from an explicit user action,
-            // sound should start playing now
-        }
-        else
-        {
-            // There was no need for unlocking, devices other than iOS
-        }
-        },
-        function(reason)
-        {
-            console.error(reason);
-        });
         if (active === true) {mrotate(event);}
       });
       $(document).bind('touchstart', function (event) {
