@@ -1,5 +1,3 @@
-Howler.autoUnlock = true;
-
 // Howler sound definitions
 
 var sound = new Howl({
@@ -52,6 +50,22 @@ for(let i = 0; i <= 26; i++){
   negbuckets.push(i*rotFr*-1)
 }
 
+
+var sound = new Howl({
+  src: ['assets/sounds/confirm2.wav']
+});
+
+// check if the user is on a mobile device
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  // unlock sound playback on mobile devices
+  Howler.mobileAutoEnable = false;
+  sound.play();
+} else {
+  // play sound on desktop
+  sound.play();
+}
+
+
 // Rotation bucket function
 function getCloseFr(value){
   const dist = []
@@ -76,55 +90,6 @@ function getCloseFr(value){
     return posbuckets[minIndex]
   }
 }
-
-var simpleWebAudioPlayer = function() {
-  "use strict";
-
-  var player = {},
-      sounds = [],
-      ctx,
-      masterGain;
-
-  player.load = function(sound) {
-      sounds[sound.name] = sound;
-      // Load the sound
-      var request = new window.XMLHttpRequest();
-      request.open("get", sound.src, true);
-      request.responseType = "arraybuffer";
-      request.onload = function() {
-          ctx.decodeAudioData(request.response, function(buffer) {
-              sounds[sound.name].buffer = buffer;
-              if (sounds[sound.name].callback) {
-                  sounds[sound.name].callback();
-              }
-          });
-      };
-      request.send();
-  };
-
-  player.play = function(name) {
-      var inst = {};
-      if (sounds[name]) {
-          inst.source = ctx.createBufferSource();
-          inst.source.buffer = sounds[name].buffer;
-          inst.source.connect(masterGain);
-          inst.source.start(0);
-      }
-  };
-
-  // Create audio context
-  if (typeof AudioContext !== 'undefined') {
-      ctx = new AudioContext();
-  } else if (typeof webkitAudioContext !== 'undefined') {
-      ctx = new webkitAudioContext();
-  }
-  masterGain = (typeof ctx.createGain === 'undefined') ? ctx.createGainNode() : ctx.createGain();
-  masterGain.gain.value = 1;
-  masterGain.connect(ctx.destination);
-
-  return player;
-};
-
 
 // Rotation of elements
 
@@ -154,18 +119,8 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
   init = function () {
     for (const x of rotatableids) {document.getElementById(x).addEventListener("mousedown", start, { passive: false }), 
-    document.getElementById(x).addEventListener('touchend', createSound, { passive: false }) ;}
+    document.getElementById(x).addEventListener('touchstart', mstart, { passive: false })}
 
-      function createSound() {
-          var player = new simpleWebAudioPlayer();
-          player.load({
-              name: 'son1',
-              src: 'assets/sounds/empty.wav',
-              callback: function() {
-                  player.play('son1');
-              }
-          });
-      }
 
       //Mobile
       $(document).bind('touchmove', function (event) {
