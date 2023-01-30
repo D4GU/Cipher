@@ -1,7 +1,9 @@
   
-    body {
-    /* box-sizing: content-box;
-    overflow: hidden; */
+    html body {
+    /* box-sizing: content-box; */
+    overflow: hidden;
+    overscroll-behavior: contain;
+    height: 100%;
     margin: 0px;
   }
   

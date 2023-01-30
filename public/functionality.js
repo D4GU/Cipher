@@ -8,6 +8,14 @@ var sound = new Howl({
   },
 });
 
+var unlocksound = new Howl({
+  src: ['assets/sounds/empty_1c.wav'],
+  volume: 1,
+  sprite: {
+    key1: [600, 1600, true]
+  },
+});
+
 var confsound = new Howl({
   src: ['assets/sounds/confirm2.wav'],
   volume: 0.25,
@@ -96,12 +104,15 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
       //Mobile
       $(document).bind('touchmove', function (event) {
+        unlocksound.play('key1')
         if (active === true) {mrotate(event);}
       });
       $(document).bind('touchstart', function (event) {
+        unlocksound.play('key1')
         currentRotatable = rotatables.find(o => o.name === event.target.id)
       });
       $(document).bind('touchend', function (event) {
+        unlocksound.play('key1')
         mstop(event);
       });
       
@@ -207,18 +218,19 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
   };
 
   mrotate = function (a) {
-    if(document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id == 'viewport' || document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id =='staticring'){
-      recentstop = true;
-      document.getElementById(currentRotatable.name).style.transform = "rotate(" + (getCloseFr(currentRotatable.complete)) + "deg)"
-      currentRotatable.angle += currentRotatable.rotation;
-      currentRotatable.angle = getCloseFr(currentRotatable.angle)
-      confsound.play('key1');
-      soundid = stopSounds(soundid);
-      currentRotatable.active = false;
-      return active = false
-    }
+    // if(document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id == 'viewport' || document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id =='staticring'){
+    //   recentstop = true;
+    //   document.getElementById(currentRotatable.name).style.transform = "rotate(" + (getCloseFr(currentRotatable.complete)) + "deg)"
+    //   currentRotatable.angle += currentRotatable.rotation;
+    //   currentRotatable.angle = getCloseFr(currentRotatable.angle)
+    //   confsound.play('key1');
+    //   soundid = stopSounds(soundid);
+    //   currentRotatable.active = false;
+    //   return active = false
+    // }
 
-    if (rotatableids.includes(document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id)) {
+    // if (rotatableids.includes(document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id)) {
+
       var x = a.targetTouches[0].clientX - currentRotatable.center.x,
       y = a.targetTouches[0].clientY - currentRotatable.center.y,
       d = R2D * Math.atan2(y, x);
@@ -226,7 +238,8 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
       soundid = runningSounds(soundid);
       currentRotatable.complete = currentRotatable.angle + currentRotatable.rotation
       return document.getElementById(currentRotatable.name).style.transform = "rotate(" + currentRotatable.complete + "deg)";
-    }
+      
+    // }
     
   };
 
