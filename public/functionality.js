@@ -82,6 +82,11 @@ function checkforMobile(){
 checkforMobile()
 
 
+function runSound() {
+  console.log("running")
+  unlocksound.play()
+}
+
 // Rotation of elements
 
 function Rotatable(name) {
@@ -97,7 +102,6 @@ var rotatableids = ['rotateAlphabet','rotateNumbers','rotateStaticmiddle','rotat
 let rotatables = []
 
 rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
-
 
 (function () {
   var init, rotate, start, stop, mstart, mrotate, mstop
