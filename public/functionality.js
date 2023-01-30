@@ -1,3 +1,4 @@
+Howler.autoUnlock = true;
 // Howler sound definitions
 
 var sound = new Howl({
