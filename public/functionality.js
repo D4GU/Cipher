@@ -50,22 +50,6 @@ for(let i = 0; i <= 26; i++){
   negbuckets.push(i*rotFr*-1)
 }
 
-
-var sound = new Howl({
-  src: ['assets/sounds/confirm2.wav']
-});
-
-// check if the user is on a mobile device
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-  // unlock sound playback on mobile devices
-  Howler.mobileAutoEnable = false;
-  sound.play();
-} else {
-  // play sound on desktop
-  sound.play();
-}
-
-
 // Rotation bucket function
 function getCloseFr(value){
   const dist = []
@@ -109,7 +93,7 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
 
 (function () {
-  var init, rotate, start, stop, mstart, mrotate, mstop, soundunlocker
+  var init, rotate, start, stop, mstart, mrotate, mstop
     active = false,
     currentRotatable = null,
     soundid = null,
@@ -139,12 +123,14 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
       //Browser
       $(document).bind('mousemove', function (event) {
+        unlocksound.play('key1')
         if (active === true) {
           event.preventDefault();
           rotate(event);
         }
       });
       $(document).bind('mousedown', function (event) {
+        unlocksound.play('key1')
         event.preventDefault();
         currentRotatable = rotatables.find(o => o.name === event.target.id)
       });
