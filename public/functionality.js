@@ -109,9 +109,11 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
       //Mobile
       $(document).bind('touchmove', function (event) {
+        unlocksound.play('key1')
         if (active === true) {mrotate(event);}
       });
       $(document).bind('touchstart', function (event) {
+        unlocksound.play('key1')
         currentRotatable = rotatables.find(o => o.name === event.target.id)
       });
       $(document).bind('touchend', function (event) {
