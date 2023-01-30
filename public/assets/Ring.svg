@@ -1305,9 +1305,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.979899"
-     inkscape:cx="260.02391"
-     inkscape:cy="230.77246"
+     inkscape:zoom="2.8"
+     inkscape:cx="241.68224"
+     inkscape:cy="215.6789"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      inkscape:document-rotation="0"
@@ -1333,14 +1333,14 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Symbols"
+     inkscape:label="Ring"
      style="display:inline"
      transform="translate(-41.400183,-71.118869)">
     <g
@@ -1360,5 +1360,10 @@
          transform="translate(0.65467837,-0.39121459)"
          style="stroke-width:0.69552;stroke-miterlimit:4;stroke-dasharray:none" />
     </g>
+    <path
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.618223;stroke-linejoin:round"
+       d="M 175.61081,372.77325 C 140.28988,370.55861 105.35073,357.67552 76.487157,336.22345 63.052846,326.23876 49.093296,312.25991 38.686378,298.3704 21.105314,274.90598 9.1759386,246.78073 4.370049,217.46461 2.5030773,206.07601 2.2309241,202.21996 2.2401023,187.28604 2.2495079,171.98227 2.6660746,166.83613 4.8938951,154.50184 18.081408,81.489424 73.808914,23.167346 146.23013,6.585233 c 38.24568,-8.7570189 78.84955,-5.0290552 114.81236,10.541266 48.67407,21.07374 85.90796,61.696125 102.60739,111.945261 9.12915,27.46988 11.67747,56.70125 7.47236,85.71428 -3.19207,22.02352 -11.22582,45.19068 -22.49679,64.87478 -5.47549,9.56263 -13.08958,20.36025 -20.36174,28.87522 -4.45183,5.21265 -14.46231,15.21815 -19.79575,19.78592 -36.81376,31.52872 -84.49935,47.48337 -132.85715,44.45129 z"
+       id="path1081"
+       transform="matrix(0.26458333,0,0,0.26458333,41.400183,71.118869)" />
   </g>
 </svg>

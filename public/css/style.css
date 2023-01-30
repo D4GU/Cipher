@@ -11,27 +11,8 @@
     height: 99vh;
     overflow: hidden;
   }
-
-  /* #container {
-    position: static;
-    width: 900px;
-    height: 900px;
-  } */
-  /* #drag {
-    width: 2%;
-    height: 2%;
-    top: 48%;
-    left: 48%;
-    margin: 0;
-    position: relative;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgb(0, 0, 0), rgb(49, 49, 49));
-    border: 3px solid rgba(200, 200, 200, 0.01);
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.8);
-  } */
   
   #draggableAlphabet {
-    margin-top: 50%;
     left: 0;
     right: 0;
     width: 100%;
@@ -149,6 +130,5 @@
   #staticring {
     width: 100%;
     border-radius: 50%;
-    pointer-events: none;
     position: absolute;
   }

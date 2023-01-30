@@ -65,61 +65,67 @@ function getCloseFr(value){
   }
 }
 
-// Resizing Functionality
-
-
-// $(document).load($(window).bind("resize", checkPosition));
-
-// function checkPosition()
-// {
-//     if($(window).width() < 767)
-//     {
-//         $("#body-container .main-content").remove().insertBefore($("#body-container .left-sidebar"));
-//     } else {
-//         $("#body-container .main-content").remove().insertAfter($("#body-container .left-sidebar"));
-//     }
-// }
-
-
-
 // Rotation of elements
 
+function Rotatable(name) {
+  this.name = name
+  this.active = false;
+  this.angle = 0;
+  this.rotation = 0;
+  this.startAngle = 0;
+  this.complete = 0;
+  this.center = {x: 0 , y:0};
+}
+var rotatableids = ['rotateAlphabet','rotateNumbers','rotateStaticmiddle','rotateSymbols','rotaterunes', 'rotateElements']
+let rotatables = []
+
+rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
+
 (function () {
-  var init, rotate, start, stop,
+  var init, rotate, start, stop, mstart, mrotate, mstop
     active = false,
-    angle = 0,
-    rotation = 0,
-    startAngle = 0,
-    currentElement = '',
+    currentRotatable = null,
     soundid = null,
-    center = {
-      x: 0,
-      y: 0
-    },
-    R2D = 180 / Math.PI,
-    rota = document.getElementById('rotateAlphabet');
+    R2D = 180 / Math.PI
+  
+    
 
   init = function () {
-    rota.addEventListener("mousedown", start, false);
-    $(document).bind('mousemove', function (event) {
-      if (active === true && currentElement == 'rotateAlphabet') {
+    for (const x of rotatableids) {document.getElementById(x).addEventListener("mousedown", start, { passive: false }), document.getElementById(x).addEventListener('touchstart', mstart, { passive: false });}
+
+
+      //Mobile
+      $(document).bind('touchmove', function (event) {
+        if (active === true) {mrotate(event);}
+      });
+      $(document).bind('touchstart', function (event) {
+        currentRotatable = rotatables.find(o => o.name === event.target.id)
+      });
+      $(document).bind('touchend', function (event) {
+        mstop(event);
+      });
+      
+
+      //Browser
+      $(document).bind('mousemove', function (event) {
+        if (active === true) {
+          event.preventDefault();
+          rotate(event);
+        }
+      });
+      $(document).bind('mousedown', function (event) {
         event.preventDefault();
-        rotate(event);
-      }
-    });
-    $(document).bind('mousedown', function (event) {
-      currentElement= event.target.id
-    });
-    $(document).bind('mouseup', function (event) {
-      event.preventDefault();
-      if (currentElement == 'rotateAlphabet') {
+        currentRotatable = rotatables.find(o => o.name === event.target.id)
+      });
+      $(document).bind('mouseup', function (event) {
+        event.preventDefault();
         stop(event);
-      }
-    });
+      });
+
   };
 
-
-  start = function (a) {
+  start = function (a) { 
+    currentRotatable = rotatables.find(o => o.name === a.target.id)
     a.preventDefault();
     var bb = this.getBoundingClientRect(),
       t = bb.top,
@@ -127,423 +133,120 @@ function getCloseFr(value){
       h = bb.height,
       w = bb.width,
       x, y;
-    center = {
+    currentRotatable.center = {
       x: l + (w / 2),
       y: t + (h / 2)
     };
-    x = a.clientX - center.x;
-    y = a.clientY - center.y;
-    startAngle = R2D * Math.atan2(y, x);
+    x = a.clientX - currentRotatable.center.x;
+    y = a.clientY - currentRotatable.center.y;
+    currentRotatable.startAngle = R2D * Math.atan2(y, x);
+    currentRotatable.active = true;
     return active = true;
+
   };
 
+
+  //Browser functions
   rotate = function (a) {
-    a.preventDefault();
-    var x = a.clientX - center.x,
-      y = a.clientY - center.y,
+    if(a.target.id == 'viewport' || a.target.id =='staticring'){
+      document.getElementById(currentRotatable.name).style.transform = "rotate(" + (getCloseFr(currentRotatable.complete)) + "deg)"
+      currentRotatable.angle += currentRotatable.rotation;
+      currentRotatable.angle = getCloseFr(currentRotatable.angle)
+      confsound.play('key1');
+      soundid = stopSounds(soundid);
+      currentRotatable.active = false;
+      return active = false
+    }
+
+    if (rotatableids.includes(a.target.id)) {
+      a.preventDefault();
+      var x = a.clientX - currentRotatable.center.x,
+      y = a.clientY - currentRotatable.center.y,
       d = R2D * Math.atan2(y, x);
-    rotation = d - startAngle;
-    soundid = runningSounds(soundid);
-    complete = angle + rotation
-    return rota.style.transform = "rotate(" + complete + "deg)";
+      currentRotatable.rotation = d - currentRotatable.startAngle;
+      soundid = runningSounds(soundid);
+      currentRotatable.complete = currentRotatable.angle + currentRotatable.rotation
+      return document.getElementById(currentRotatable.name).style.transform = "rotate(" + currentRotatable.complete + "deg)";
+    }
+    
   };
 
-  stop = function () {
-    rota.style.transform = "rotate(" + (getCloseFr(complete)) + "deg)"
-    angle += rotation;
-    angle = getCloseFr(angle)
-    confsound.play('key1');
-    soundid = stopSounds(soundid);
-    return active = false;
-  };
+  stop = function (a) {
+    if (rotatableids.includes(a.target.id)) {
+      document.getElementById(currentRotatable.name).style.transform = "rotate(" + (getCloseFr(currentRotatable.complete)) + "deg)"
+      currentRotatable.angle += currentRotatable.rotation;
+      currentRotatable.angle = getCloseFr(currentRotatable.angle)
+      confsound.play('key1');
+      soundid = stopSounds(soundid);
+      currentRotatable.active = false;
+      return active = false;
+    }
+  }
 
-  init();
-
-}).call(this);
-
-(function () {
-  var init, rotate, start, stop,
-    active = false,
-    angle = 0,
-    rotation = 0,
-    startAngle = 0,
-    currentElement = '',
-    soundid = null,
-    center = {
-      x: 0,
-      y: 0
-    },
-    R2D = 180 / Math.PI,
-    rotn = document.getElementById('rotateNumbers');
-  init = function () {
-    rotn.addEventListener("mousedown", start, false);
-    $(document).bind('mousemove', function (event) {
-      if (active === true && currentElement == 'rotateNumbers') {
-        event.preventDefault();
-        rotate(event);
-      }
-    });
-    $(document).bind('mousedown', function (event) {
-      currentElement= event.target.id
-    });
-    $(document).bind('mouseup', function (event) {
-      event.preventDefault();
-      if (currentElement == 'rotateNumbers') {
-        stop(event);
-      }
-    });
-  };
-
-  start = function (n) {
-    n.preventDefault();
+  //Mobile functions
+  var recentstop = false
+  mstart = function (a) { 
+    recentstop = false
+    currentRotatable = rotatables.find(o => o.name === a.target.id)
     var bb = this.getBoundingClientRect(),
       t = bb.top,
       l = bb.left,
       h = bb.height,
       w = bb.width,
       x, y;
-    center = {
+    currentRotatable.center = {
       x: l + (w / 2),
       y: t + (h / 2)
     };
-    x = n.clientX - center.x;
-    y = n.clientY - center.y;
-    startAngle = R2D * Math.atan2(y, x);
+    x = a.targetTouches[0].clientX - currentRotatable.center.x;
+    y = a.targetTouches[0].clientY - currentRotatable.center.y;
+    currentRotatable.startAngle = R2D * Math.atan2(y, x);
+    currentRotatable.active = true;
     return active = true;
+
   };
 
-  rotate = function (n) {
-    n.preventDefault();
-    var x = n.clientX - center.x,
-      y = n.clientY - center.y,
+  mrotate = function (a) {
+    console.log(document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id)
+    
+    if(document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id == 'viewport' || document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id =='staticring'){
+      recentstop = true;
+      document.getElementById(currentRotatable.name).style.transform = "rotate(" + (getCloseFr(currentRotatable.complete)) + "deg)"
+      currentRotatable.angle += currentRotatable.rotation;
+      currentRotatable.angle = getCloseFr(currentRotatable.angle)
+      confsound.play('key1');
+      soundid = stopSounds(soundid);
+      currentRotatable.active = false;
+      return active = false
+    }
+
+    if (rotatableids.includes(document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id)) {
+      var x = a.targetTouches[0].clientX - currentRotatable.center.x,
+      y = a.targetTouches[0].clientY - currentRotatable.center.y,
       d = R2D * Math.atan2(y, x);
-    rotation = d - startAngle;
-    soundid = runningSounds(soundid);
-    complete = angle + rotation
-    return rotn.style.transform = "rotate(" + complete + "deg)";
+      currentRotatable.rotation = d - currentRotatable.startAngle;
+      soundid = runningSounds(soundid);
+      currentRotatable.complete = currentRotatable.angle + currentRotatable.rotation
+      return document.getElementById(currentRotatable.name).style.transform = "rotate(" + currentRotatable.complete + "deg)";
+    }
+    
   };
 
-  stop = function () {
-    rotn.style.transform = "rotate(" + (getCloseFr(complete)) + "deg)"
-    angle += rotation;
-    angle = getCloseFr(angle)
-    confsound.play('key1');
-    soundid = stopSounds(soundid);
-    return active = false;
-  };
-
-
-
-  init();
-
-}).call(this);
-
-(function () {
-  var init, rotate, start, stop,
-    active = false,
-    angle = 0,
-    rotation = 0,
-    startAngle = 0,
-    currentElement = '',
-    soundid= null,
-    center = {
-      x: 0,
-      y: 0
-    },
-    R2D = 180 / Math.PI,
-    rots = document.getElementById('rotateSymbols');
-
-  init = function () {
-    rots.addEventListener("mousedown", start, false);
-    $(document).bind('mousemove', function (event) {
-      if (active === true && currentElement == 'rotateSymbols') {
-        event.preventDefault();
-        rotate(event);
+  mstop = function (a) {
+    if(!(recentstop)) {
+      if (rotatableids.includes(a.target.id)) {
+        recentstop = true;
+        document.getElementById(currentRotatable.name).style.transform = "rotate(" + (getCloseFr(currentRotatable.complete)) + "deg)"
+        currentRotatable.angle += currentRotatable.rotation;
+        currentRotatable.angle = getCloseFr(currentRotatable.angle)
+        confsound.play('key1');
+        soundid = stopSounds(soundid);
+        currentRotatable.active = false;
+        return active = false;
       }
-    });
-    $(document).bind('mousedown', function (event) {
-      currentElement= event.target.id
-    });
-    $(document).bind('mouseup', function (event) {
-      event.preventDefault();
-      if (currentElement == 'rotateSymbols') {
-        stop(event);
-      }
-    });
-  };
-
-  start = function (s) {
-    s.preventDefault();
-    var bb = this.getBoundingClientRect(),
-      t = bb.top,
-      l = bb.left,
-      h = bb.height,
-      w = bb.width,
-      x, y;
-    center = {
-      x: l + (w / 2),
-      y: t + (h / 2)
-    };
-    x = s.clientX - center.x;
-    y = s.clientY - center.y;
-    startAngle = R2D * Math.atan2(y, x);
-    return active = true;
-  };
-
-  rotate = function (s) {
-    s.preventDefault();
-    var x = s.clientX - center.x,
-      y = s.clientY - center.y,
-      d = R2D * Math.atan2(y, x);
-    rotation = d - startAngle;
-    soundid = runningSounds(soundid);
-    complete = angle + rotation
-    return rots.style.transform = "rotate(" + complete + "deg)";
-  };
-
-  stop = function (s) {
-    rots.style.transform = "rotate(" + (getCloseFr(complete)) + "deg)"
-    angle += rotation;
-    angle = getCloseFr(angle)
-    confsound.play('key1');
-    soundid = stopSounds(soundid);
-    return active = false;
-  };
-
-
-
-  init();
-
-}).call(this);
-
-
-(function () {
-  var init, rotate, start, stop,
-    active = false,
-    angle = 0,
-    rotation = 0,
-    startAngle = 0,
-    currentElement = '',
-    soundid = null,
-    center = {
-      x: 0,
-      y: 0
-    },
-    R2D = 180 / Math.PI,
-    rota = document.getElementById('rotaterunes');
-
-  init = function () {
-    rota.addEventListener("mousedown", start, false);
-    $(document).bind('mousemove', function (event) {
-      if (active === true && currentElement == 'rotaterunes') {
-        event.preventDefault();
-        rotate(event);
-      }
-    });
-    $(document).bind('mousedown', function (event) {
-      currentElement= event.target.id
-    });
-    $(document).bind('mouseup', function (event) {
-      event.preventDefault();
-      if (currentElement == 'rotaterunes') {
-        stop(event);
-      }
-    });
-  };
-
-
-  start = function (a) {
-    a.preventDefault();
-    var bb = this.getBoundingClientRect(),
-      t = bb.top,
-      l = bb.left,
-      h = bb.height,
-      w = bb.width,
-      x, y;
-    center = {
-      x: l + (w / 2),
-      y: t + (h / 2)
-    };
-    x = a.clientX - center.x;
-    y = a.clientY - center.y;
-    startAngle = R2D * Math.atan2(y, x);
-    return active = true;
-  };
-
-  rotate = function (a) {
-    a.preventDefault();
-    var x = a.clientX - center.x,
-      y = a.clientY - center.y,
-      d = R2D * Math.atan2(y, x);
-    rotation = d - startAngle;
-    soundid = runningSounds(soundid);
-    complete = angle + rotation
-    return rota.style.transform = "rotate(" + complete + "deg)";
-  };
-
-  stop = function () {
-    rota.style.transform = "rotate(" + (getCloseFr(complete)) + "deg)"
-    angle += rotation;
-    angle = getCloseFr(angle)
-    confsound.play('key1');
-    soundid = stopSounds(soundid);
-    return active = false;
-  };
-
-  init();
-
-}).call(this);
-
-(function () {
-  var init, rotate, start, stop,
-    active = false,
-    angle = 0,
-    rotation = 0,
-    startAngle = 0,
-    currentElement = '',
-    soundid = null,
-    center = {
-      x: 0,
-      y: 0
-    },
-    R2D = 180 / Math.PI,
-    rota = document.getElementById('rotateStaticmiddle');
-
-  init = function () {
-    rota.addEventListener("mousedown", start, false);
-    $(document).bind('mousemove', function (event) {
-      if (active === true && currentElement == 'rotateStaticmiddle') {
-        event.preventDefault();
-        rotate(event);
-      }
-    });
-    $(document).bind('mousedown', function (event) {
-      currentElement= event.target.id
-    });
-    $(document).bind('mouseup', function (event) {
-      event.preventDefault();
-      if (currentElement == 'rotateStaticmiddle') {
-        stop(event);
-      }
-    });
-  };
-
-
-  start = function (a) {
-    a.preventDefault();
-    var bb = this.getBoundingClientRect(),
-      t = bb.top,
-      l = bb.left,
-      h = bb.height,
-      w = bb.width,
-      x, y;
-    center = {
-      x: l + (w / 2),
-      y: t + (h / 2)
-    };
-    x = a.clientX - center.x;
-    y = a.clientY - center.y;
-    startAngle = R2D * Math.atan2(y, x);
-    return active = true;
-  };
-
-  rotate = function (a) {
-    a.preventDefault();
-    var x = a.clientX - center.x,
-      y = a.clientY - center.y,
-      d = R2D * Math.atan2(y, x);
-    rotation = d - startAngle;
-    soundid = runningSounds(soundid);
-    complete = angle + rotation
-    return rota.style.transform = "rotate(" + complete + "deg)";
-  };
-
-  stop = function () {
-    rota.style.transform = "rotate(" + (getCloseFr(complete)) + "deg)"
-    angle += rotation;
-    angle = getCloseFr(angle)
-    confsound.play('key1');
-    soundid = stopSounds(soundid);
-    return active = false;
-  };
-
-  init();
-
-}).call(this);
-
-
-
-(function () {
-  var init, rotate, start, stop,
-    active = false,
-    angle = 0,
-    rotation = 0,
-    startAngle = 0,
-    currentElement = '',
-    soundid = null,
-    center = {
-      x: 0,
-      y: 0
-    },
-    R2D = 180 / Math.PI,
-    rota = document.getElementById('rotateElements');
-
-  init = function () {
-    rota.addEventListener("mousedown", start, false);
-    $(document).bind('mousemove', function (event) {
-      if (active === true && currentElement == 'rotateElements') {
-        event.preventDefault();
-        rotate(event);
-      }
-    });
-    $(document).bind('mousedown', function (event) {
-      currentElement= event.target.id
-    });
-    $(document).bind('mouseup', function (event) {
-      event.preventDefault();
-      if (currentElement == 'rotateElements') {
-        stop(event);
-      }
-    });
-  };
-
-
-  start = function (a) {
-    a.preventDefault();
-    var bb = this.getBoundingClientRect(),
-      t = bb.top,
-      l = bb.left,
-      h = bb.height,
-      w = bb.width,
-      x, y;
-    center = {
-      x: l + (w / 2),
-      y: t + (h / 2)
-    };
-    x = a.clientX - center.x;
-    y = a.clientY - center.y;
-    startAngle = R2D * Math.atan2(y, x);
-    return active = true;
-  };
-
-  rotate = function (a) {
-    a.preventDefault();
-    var x = a.clientX - center.x,
-      y = a.clientY - center.y,
-      d = R2D * Math.atan2(y, x);
-    rotation = d - startAngle;
-    soundid = runningSounds(soundid);
-    complete = angle + rotation
-    return rota.style.transform = "rotate(" + complete + "deg)";
-  };
-
-  stop = function () {
-    rota.style.transform = "rotate(" + (getCloseFr(complete)) + "deg)"
-    angle += rotation;
-    angle = getCloseFr(angle)
-    confsound.play('key1');
-    soundid = stopSounds(soundid);
-    return active = false;
+    }
+    
+   
   };
 
   init();
