@@ -105,37 +105,29 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
   init = function () {
     for (const x of rotatableids) {document.getElementById(x).addEventListener("mousedown", start, { passive: false }), 
-    document.getElementById(x).addEventListener('touchstart', mstart, { passive: false });}
-  
+    document.getElementById(x).addEventListener('touchend', createSound, { passive: false }) ;}
+
+      function createSound() {
+          var player = new simpleWebAudioPlayer();
+          player.load({
+              name: 'son1',
+              src: 'assets/sounds/empty.wav',
+              callback: function() {
+                  player.play('son1');
+              }
+          });
+      }
 
       //Mobile
       $(document).bind('touchmove', function (event) {
-        if(Howler.ctx && Howler.ctx.state && Howler.ctx.state == "suspended") {
-          Howler.ctx.resume().then(function() {
-              console.log("AudioContext resumed!");
-              // fire your callback here
-          });
-        }
         unlocksound.play('key1')
         if (active === true) {mrotate(event);}
       });
       $(document).bind('touchstart', function (event) {
-        if(Howler.ctx && Howler.ctx.state && Howler.ctx.state == "suspended") {
-          Howler.ctx.resume().then(function() {
-              console.log("AudioContext resumed!");
-              // fire your callback here
-          });
-        }
         unlocksound.play('key1')
         currentRotatable = rotatables.find(o => o.name === event.target.id)
       });
       $(document).bind('touchend', function (event) {
-        if(Howler.ctx && Howler.ctx.state && Howler.ctx.state == "suspended") {
-          Howler.ctx.resume().then(function() {
-              console.log("AudioContext resumed!");
-              // fire your callback here
-          });
-        }
         unlocksound.play('key1')
         mstop(event);
       });
