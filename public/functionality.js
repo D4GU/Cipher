@@ -88,6 +88,43 @@ let rotatables = []
 
 rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
+
+var AudioContext = window.AudioContext || window.webkitAudioContext;
+var context = new AudioContext();
+
+function webAudioTouchUnlock (context)
+{
+    return new Promise(function (resolve, reject)
+    { 
+        if ('ontouchstart' in window)
+        { 
+            var unlock = function()
+            {
+                context.resume().then(function()
+                {
+                    document.body.removeEventListener('touchstart', unlock);
+                    document.body.removeEventListener('touchend', unlock);
+
+                    resolve(true);
+                }, 
+                function (reason)
+                {
+                    reject(reason);
+                });
+            };
+
+            document.body.addEventListener('touchstart', unlock, false);
+            document.body.addEventListener('touchend', unlock, false);
+        }
+        else
+        {
+            resolve(false);
+        }
+    });
+}
+
+
+
 (function () {
   var init, rotate, start, stop, mstart, mrotate, mstop, soundunlocker
     active = false,
@@ -100,10 +137,27 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
   init = function () {
     for (const x of rotatableids) {document.getElementById(x).addEventListener("mousedown", start, { passive: false }), 
     document.getElementById(x).addEventListener('touchstart', mstart, { passive: false });}
-
+  
 
       //Mobile
       $(document).bind('touchmove', function (event) {
+        webAudioTouchUnlock(context).then(function (unlocked)
+        {     
+        console.log(unlocked)
+        if(unlocked)
+        {
+            // AudioContext was unlocked from an explicit user action,
+            // sound should start playing now
+        }
+        else
+        {
+            // There was no need for unlocking, devices other than iOS
+        }
+        },
+        function(reason)
+        {
+            console.error(reason);
+        });
         if (active === true) {mrotate(event);}
       });
       $(document).bind('touchstart', function (event) {
