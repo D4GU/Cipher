@@ -1,4 +1,5 @@
 Howler.autoUnlock = true;
+
 // Howler sound definitions
 
 var sound = new Howl({
@@ -109,14 +110,32 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
       //Mobile
       $(document).bind('touchmove', function (event) {
+        if(Howler.ctx && Howler.ctx.state && Howler.ctx.state == "suspended") {
+          Howler.ctx.resume().then(function() {
+              console.log("AudioContext resumed!");
+              // fire your callback here
+          });
+        }
         unlocksound.play('key1')
         if (active === true) {mrotate(event);}
       });
       $(document).bind('touchstart', function (event) {
+        if(Howler.ctx && Howler.ctx.state && Howler.ctx.state == "suspended") {
+          Howler.ctx.resume().then(function() {
+              console.log("AudioContext resumed!");
+              // fire your callback here
+          });
+        }
         unlocksound.play('key1')
         currentRotatable = rotatables.find(o => o.name === event.target.id)
       });
       $(document).bind('touchend', function (event) {
+        if(Howler.ctx && Howler.ctx.state && Howler.ctx.state == "suspended") {
+          Howler.ctx.resume().then(function() {
+              console.log("AudioContext resumed!");
+              // fire your callback here
+          });
+        }
         unlocksound.play('key1')
         mstop(event);
       });
