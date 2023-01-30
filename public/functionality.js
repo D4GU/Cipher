@@ -207,8 +207,6 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
   };
 
   mrotate = function (a) {
-    console.log(document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id)
-    
     if(document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id == 'viewport' || document.elementFromPoint(a.targetTouches[0].clientX, a.targetTouches[0].clientY).id =='staticring'){
       recentstop = true;
       document.getElementById(currentRotatable.name).style.transform = "rotate(" + (getCloseFr(currentRotatable.complete)) + "deg)"
