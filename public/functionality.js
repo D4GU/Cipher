@@ -1,9 +1,9 @@
+Howler.autoUnlock = true;
 // Howler sound definitions
 
 var sound = new Howl({
   src: ['assets/sounds/stone.wav'],
   volume: 1,
-  html5: true,
   sprite: {
     key1: [600, 1600, true]
   },
@@ -12,7 +12,6 @@ var sound = new Howl({
 var unlocksound = new Howl({
   src: ['assets/sounds/empty.wav'],
   volume: 1,
-  html5: true,
   sprite: {
     key1: [600, 1600, true]
   },
@@ -21,7 +20,6 @@ var unlocksound = new Howl({
 var confsound = new Howl({
   src: ['assets/sounds/confirm2.wav'],
   volume: 0.25,
-  html5: true,
   sprite: {
     key1: [0, 400]
   },
@@ -75,6 +73,18 @@ function getCloseFr(value){
   }
 }
 
+mobileDevice = false;
+
+function checkforMobile(){
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    return mobileDevice = true
+  } else {
+    return mobileDevice = false
+  }
+}
+checkforMobile()
+
+
 // Rotation of elements
 
 function Rotatable(name) {
@@ -108,35 +118,32 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
       //Mobile
       $(document).bind('touchmove', function (event) {
-        confsound.play('key1')
         if (active === true) {mrotate(event);}
       });
       $(document).bind('touchstart', function (event) {
-        confsound.play('key1')
+        checkforMobile()
         currentRotatable = rotatables.find(o => o.name === event.target.id)
       });
       $(document).bind('touchend', function (event) {
-        confsound.play('key1')
         mstop(event);
       });
       
 
       //Browser
       $(document).bind('mousemove', function (event) {
-        confsound.play('key1')
         if (active === true) {
           event.preventDefault();
           rotate(event);
         }
       });
       $(document).bind('mousedown', function (event) {
-        confsound.play('key1')
+        checkforMobile()
         event.preventDefault();
         currentRotatable = rotatables.find(o => o.name === event.target.id)
       });
       $(document).bind('mouseup', function (event) {
+        checkforMobile()
         event.preventDefault();
-        confsound.play('key1')
         stop(event);
       });
 
@@ -190,15 +197,20 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
   };
 
   stop = function (a) {
-    if (rotatableids.includes(a.target.id)) {
-      document.getElementById(currentRotatable.name).style.transform = "rotate(" + (getCloseFr(currentRotatable.complete)) + "deg)"
-      currentRotatable.angle += currentRotatable.rotation;
-      currentRotatable.angle = getCloseFr(currentRotatable.angle)
-      confsound.play('key1');
-      soundid = stopSounds(soundid);
-      currentRotatable.active = false;
-      return active = false;
+    try {
+      if (rotatableids.includes(a.target.id) && mobileDevice != true) {
+        document.getElementById(currentRotatable.name).style.transform = "rotate(" + (getCloseFr(currentRotatable.complete)) + "deg)"
+        currentRotatable.angle += currentRotatable.rotation;
+        currentRotatable.angle = getCloseFr(currentRotatable.angle)
+        confsound.play('key1');
+        soundid = stopSounds(soundid);
+        currentRotatable.active = false;
+        return active = false;
+      }
+    } catch (TypeError) {
+      pass;
     }
+    
 
 
   }
@@ -251,7 +263,7 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
     // }
     
   };
-
+  // ontouchstart="runningSounds(null)"
   mstop = function (a) {
     if(!(recentstop)) {
       if (rotatableids.includes(a.target.id)) {
