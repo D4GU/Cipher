@@ -288,5 +288,3 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
   init();
 
 }).call(this);
-
-$('soundbutton').click()
