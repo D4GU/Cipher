@@ -77,6 +77,55 @@ function getCloseFr(value){
   }
 }
 
+var simpleWebAudioPlayer = function() {
+  "use strict";
+
+  var player = {},
+      sounds = [],
+      ctx,
+      masterGain;
+
+  player.load = function(sound) {
+      sounds[sound.name] = sound;
+      // Load the sound
+      var request = new window.XMLHttpRequest();
+      request.open("get", sound.src, true);
+      request.responseType = "arraybuffer";
+      request.onload = function() {
+          ctx.decodeAudioData(request.response, function(buffer) {
+              sounds[sound.name].buffer = buffer;
+              if (sounds[sound.name].callback) {
+                  sounds[sound.name].callback();
+              }
+          });
+      };
+      request.send();
+  };
+
+  player.play = function(name) {
+      var inst = {};
+      if (sounds[name]) {
+          inst.source = ctx.createBufferSource();
+          inst.source.buffer = sounds[name].buffer;
+          inst.source.connect(masterGain);
+          inst.source.start(0);
+      }
+  };
+
+  // Create audio context
+  if (typeof AudioContext !== 'undefined') {
+      ctx = new AudioContext();
+  } else if (typeof webkitAudioContext !== 'undefined') {
+      ctx = new webkitAudioContext();
+  }
+  masterGain = (typeof ctx.createGain === 'undefined') ? ctx.createGainNode() : ctx.createGain();
+  masterGain.gain.value = 1;
+  masterGain.connect(ctx.destination);
+
+  return player;
+};
+
+
 // Rotation of elements
 
 function Rotatable(name) {
