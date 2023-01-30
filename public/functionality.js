@@ -12,9 +12,6 @@ var sound = new Howl({
 var unlocksound = new Howl({
   src: ['assets/sounds/empty.wav'],
   volume: 1,
-  sprite: {
-    key1: [600, 1600, true]
-  },
 });
 
 var confsound = new Howl({
@@ -150,6 +147,7 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
   };
 
   start = function (a) { 
+    unlocksound.play()
     currentRotatable = rotatables.find(o => o.name === a.target.id)
     a.preventDefault();
     var bb = this.getBoundingClientRect(),
@@ -217,7 +215,10 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
   //Mobile functions
   var recentstop = false
+
   mstart = function (a) { 
+    // unlocksound.play()
+    unlocksound.play()
     recentstop = false
     currentRotatable = rotatables.find(o => o.name === a.target.id)
     var bb = this.getBoundingClientRect(),
