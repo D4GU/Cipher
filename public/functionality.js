@@ -81,7 +81,6 @@ function checkforMobile(){
 }
 checkforMobile()
 
-
 function runSound() {
   console.log("running")
   unlocksound.play()
@@ -289,3 +288,5 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
   init();
 
 }).call(this);
+
+$('soundbutton').click()

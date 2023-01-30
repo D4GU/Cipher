@@ -7,7 +7,7 @@ content= "width=device-width, initial-scale=1.0">
    
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<body>
+<body click='runSound()'>
     <div id="viewport" style="width:100%; position:absolute">
         <div id="container">
             <div id="draggableAlphabet">
@@ -50,7 +50,7 @@ content= "width=device-width, initial-scale=1.0">
 
         </div>
     </div>
-    <button click='runSound()' style="width:20%; height:20%; position:absolute"></button>
+    <button id="soundbutton" click='runSound()' style="width:20%; height:20%; position:absolute"></button>
     
     <script src="\libraries\howler\dist\howler.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
