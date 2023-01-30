@@ -11,30 +11,30 @@ content= "width=device-width, initial-scale=1.0">
     <div id="viewport" style="width:100%; position:absolute">
         <div id="container">
             <div id="draggableAlphabet">
-                <img id="rotateAlphabet" onclick="runSound()"  src="../assets/Alphabet.svg"></img>
+                <img id="rotateAlphabet" ontouchmove="runSound()"  src="../assets/Alphabet.svg"></img>
                 
             </div>
 
             <div id="draggableNumbers">
-                <img id="rotateNumbers" onclick="runSound()" src="../assets/Numbers.svg"></img>
+                <img id="rotateNumbers" ontouchmove="runSound()" src="../assets/Numbers.svg"></img>
 
             </div>
 
             <div id="draggableSymbols">
-                <img id="rotateSymbols" onclick="runSound()" src="../assets/Symbols.svg"></img>
+                <img id="rotateSymbols" ontouchmove="runSound()" src="../assets/Symbols.svg"></img>
             </div>
 
             <div id="staticmiddle">
-                <img id="rotateStaticmiddle" onclick="runSound()" src="../assets/Staticmiddle.svg"></img>
+                <img id="rotateStaticmiddle" ontouchmove="runSound()" src="../assets/Staticmiddle.svg"></img>
 
             </div>
 
             <div id="draggablerunes">
-                <img id="rotaterunes"  onclick="runSound()" src="../assets/Runes.svg"></img>
+                <img id="rotaterunes"  ontouchmove="runSound()" src="../assets/Runes.svg"></img>
             </div>
 
             <div id="draggableElements">
-                <img id="rotateElements"  onclick="runSound()" src="../assets/Elements.svg"></img>
+                <img id="rotateElements"  ontouchmove="runSound()" src="../assets/Elements.svg"></img>
 
             </div>
 
@@ -52,7 +52,6 @@ content= "width=device-width, initial-scale=1.0">
 
         </div>
     </div>
-    <button id="soundbutton" click='runSound()' style="width:20%; height:20%; position:absolute"></button>
     
     <script src="\libraries\howler\dist\howler.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>

@@ -81,9 +81,16 @@ function checkforMobile(){
 }
 checkforMobile()
 
+
+soundid = null;
 function runSound() {
-  console.log("running")
-  unlocksound.play()
+  if (soundid == null){
+    console.log("here")
+    soundid = unlocksound.play('key1');
+    unlocksound.on('stop', function(){
+      soundid = null;
+    })
+  }
 }
 
 // Rotation of elements
