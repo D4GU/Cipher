@@ -108,35 +108,35 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
 
       //Mobile
       $(document).bind('touchmove', function (event) {
-        unlocksound.play('key1')
+        confsound.play('key1')
         if (active === true) {mrotate(event);}
       });
       $(document).bind('touchstart', function (event) {
-        unlocksound.play('key1')
+        confsound.play('key1')
         currentRotatable = rotatables.find(o => o.name === event.target.id)
       });
       $(document).bind('touchend', function (event) {
-        unlocksound.play('key1')
+        confsound.play('key1')
         mstop(event);
       });
       
 
       //Browser
       $(document).bind('mousemove', function (event) {
-        unlocksound.play('key1')
+        confsound.play('key1')
         if (active === true) {
           event.preventDefault();
           rotate(event);
         }
       });
       $(document).bind('mousedown', function (event) {
-        unlocksound.play('key1')
+        confsound.play('key1')
         event.preventDefault();
         currentRotatable = rotatables.find(o => o.name === event.target.id)
       });
       $(document).bind('mouseup', function (event) {
         event.preventDefault();
-        unlocksound.play('key1')
+        confsound.play('key1')
         stop(event);
       });
 
