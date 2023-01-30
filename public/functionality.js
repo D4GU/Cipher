@@ -84,13 +84,14 @@ checkforMobile()
 
 soundid = null;
 function runSound() {
-  if (soundid == null){
-    console.log("here")
+  console.log("running")
+  if (soundid == null && unlocksound.playing() != true){
     soundid = unlocksound.play('key1');
     unlocksound.on('stop', function(){
       soundid = null;
     })
   }
+  
 }
 
 // Rotation of elements
@@ -157,7 +158,6 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
   };
 
   start = function (a) { 
-    unlocksound.play()
     currentRotatable = rotatables.find(o => o.name === a.target.id)
     a.preventDefault();
     var bb = this.getBoundingClientRect(),
@@ -227,8 +227,6 @@ rotatableids.forEach(function(item) {rotatables.push(new Rotatable(item));});
   var recentstop = false
 
   mstart = function (a) { 
-    // unlocksound.play()
-    unlocksound.play()
     recentstop = false
     currentRotatable = rotatables.find(o => o.name === a.target.id)
     var bb = this.getBoundingClientRect(),
