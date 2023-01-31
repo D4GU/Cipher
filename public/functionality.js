@@ -84,7 +84,6 @@ checkforMobile()
 
 soundid = null;
 function runSound() {
-  console.log("running")
   if (soundid == null && unlocksound.playing() != true){
     soundid = unlocksound.play('key1');
     unlocksound.on('stop', function(){
